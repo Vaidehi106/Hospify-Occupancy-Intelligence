@@ -525,28 +525,58 @@ section[data-testid="stSidebar"] .stButton > button[kind="secondary"]:hover {
   visibility: hidden !important;
 }
 
-/*
-  Keep stHeader in the DOM and VISIBLE — it contains the sidebar
-  collapse/expand toggle button. Setting it transparent lets the
-  toggle arrow remain clickable even when the sidebar is closed.
-  DO NOT use display:none or visibility:hidden on this element.
-*/
+/* Keep stHeader transparent — DO NOT hide it entirely.
+   It is the host element for the sidebar toggle button. */
 [data-testid="stHeader"] {
   background-color: transparent !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
 }
 
-/* Hide everything inside the header EXCEPT the sidebar toggle */
+/* Hide every direct child of the header except the sidebar toggle */
 [data-testid="stHeader"] > *:not([data-testid="stSidebarCollapsedControl"]) {
   visibility: hidden !important;
 }
 
-/* Always keep the sidebar toggle arrow visible and clickable */
+/* ── Sidebar collapsed/expand toggle ─────────────────────────── */
+/* Reposition to top-left, style as a subtle pill button         */
 [data-testid="stSidebarCollapsedControl"] {
   visibility: visible !important;
   opacity: 1 !important;
   pointer-events: auto !important;
+  position: fixed !important;
+  top: 0.6rem !important;
+  left: 0.75rem !important;
+  z-index: 999999 !important;
+}
+
+/* Style the inner button — replace the raw × with a ☰ look */
+[data-testid="stSidebarCollapsedControl"] button {
+  background: rgba(23,195,178,0.15) !important;
+  border: 1px solid rgba(23,195,178,0.35) !important;
+  border-radius: 8px !important;
+  color: #17C3B2 !important;
+  width: 2.2rem !important;
+  height: 2.2rem !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  transition: background 0.2s ease, box-shadow 0.2s ease !important;
+  box-shadow: none !important;
+}
+
+[data-testid="stSidebarCollapsedControl"] button:hover {
+  background: rgba(23,195,178,0.30) !important;
+  box-shadow: 0 0 12px rgba(23,195,178,0.3) !important;
+}
+
+/* Force the SVG icon inside to be teal coloured */
+[data-testid="stSidebarCollapsedControl"] button svg {
+  fill: #17C3B2 !important;
+  color: #17C3B2 !important;
+  width: 1rem !important;
+  height: 1rem !important;
 }
 
 /* Hide "Made with Streamlit" footer */
@@ -556,6 +586,14 @@ footer {
 
 /* Hide "Manage app" button (bottom-right corner) */
 [data-testid="stStatusWidget"] {
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* Also hide the bottom-right toolbar wrapper that contains it */
+[data-testid="stAppViewBlockContainer"] ~ div > [data-testid="stStatusWidget"],
+.st-emotion-cache-1dp5vir,
+[class*="StatusWidget"] {
   visibility: hidden !important;
   pointer-events: none !important;
 }
