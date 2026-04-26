@@ -513,48 +513,49 @@ section[data-testid="stSidebar"] .stButton > button[kind="secondary"]:hover {
   background-color: rgba(23, 195, 178, 0.09) !important;
 }
 
-/* ── Chatbot panel ───────────────────────────────────────────── */
-.chat-panel {
-  background: rgba(13, 28, 54, 0.55);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: var(--radius-lg);
-  padding: 1.25rem 1.25rem 0.75rem 1.25rem;
-  margin-top: 0.5rem;
-}
+/* ── CHROME CLEANUP ──────────────────────────────────────────── */
 
-/* Streamlit chat message bubbles */
-[data-testid="stChatMessage"] {
-  background: rgba(13, 28, 54, 0.35) !important;
-  border: 1px solid rgba(255,255,255,0.05) !important;
-  border-radius: var(--radius) !important;
-  margin-bottom: 0.5rem;
-}
-
-[data-testid="stChatInputContainer"] {
-  background: rgba(10, 25, 47, 0.7) !important;
-  border: 1px solid rgba(23,195,178,0.2) !important;
-  border-radius: var(--radius-sm) !important;
-}
-
-
-/* Hide the top colored decoration line */
+/* Hide the top coloured decoration bar */
 [data-testid="stDecoration"] {
-    display: none;
+  display: none !important;
 }
 
-/* Hide the top right menu and deploy buttons */
+/* Hide top-right toolbar (hamburger menu, deploy button) */
 [data-testid="stToolbar"] {
-    visibility: hidden;
+  visibility: hidden !important;
 }
 
-/* Make the top banner completely transparent so the sidebar button remains visible! */
+/*
+  Keep stHeader in the DOM and VISIBLE — it contains the sidebar
+  collapse/expand toggle button. Setting it transparent lets the
+  toggle arrow remain clickable even when the sidebar is closed.
+  DO NOT use display:none or visibility:hidden on this element.
+*/
 [data-testid="stHeader"] {
-    background-color: transparent;
+  background-color: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
 
-/* Hide the "Made with Streamlit" footer */
+/* Hide everything inside the header EXCEPT the sidebar toggle */
+[data-testid="stHeader"] > *:not([data-testid="stSidebarCollapsedControl"]) {
+  visibility: hidden !important;
+}
+
+/* Always keep the sidebar toggle arrow visible and clickable */
+[data-testid="stSidebarCollapsedControl"] {
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+/* Hide "Made with Streamlit" footer */
 footer {
-    visibility: hidden;
+  visibility: hidden !important;
+}
+
+/* Hide "Manage app" button (bottom-right corner) */
+[data-testid="stStatusWidget"] {
+  visibility: hidden !important;
+  pointer-events: none !important;
 }
