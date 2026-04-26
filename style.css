@@ -537,3 +537,17 @@ section[data-testid="stSidebar"] .stButton > button[kind="secondary"]:hover {
   border: 1px solid rgba(23,195,178,0.2) !important;
   border-radius: var(--radius-sm) !important;
 }
+
+
+/* Hide Streamlit default header, menu, and footer */
+[data-testid="stHeader"] {
+    visibility: hidden;
+}
+
+[data-testid="stToolbar"] {
+    visibility: hidden;
+}
+
+footer {
+    visibility: hidden;
+}
