@@ -515,76 +515,96 @@ section[data-testid="stSidebar"] .stButton > button[kind="secondary"]:hover {
 
 /* ── CHROME CLEANUP ──────────────────────────────────────────── */
 
-/* Hide the top coloured decoration bar */
+/* Hide decoration bar */
 [data-testid="stDecoration"] {
   display: none !important;
 }
 
-/* ── Top header: fully invisible but still in the DOM ───────────
-   height:0 + overflow:visible means the collapse button still
-   renders and is clickable — it just pokes out of a zero-height
-   container, so no black band is visible at all.               */
+/* ── Header: keep natural height, make fully invisible ──────────
+   NEVER set height:0 or display:none — Streamlit uses the header
+   as the anchor for the sidebar toggle button. Making it
+   invisible but present means the button stays in its correct
+   position in both sidebar-open and sidebar-collapsed states.  */
 [data-testid="stHeader"] {
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
-  height: 0px !important;
-  min-height: 0px !important;
   padding: 0 !important;
-  overflow: visible !important;
 }
 
-/* Hide the right-side toolbar (Share, star, edit, GitHub, ⋮) */
+/* Hide everything INSIDE the header except the sidebar button */
+[data-testid="stHeader"] > *:not([data-testid="stSidebarCollapsedControl"]) {
+  display: none !important;
+}
+
+/* Hide the right-side toolbar */
 [data-testid="stToolbar"] {
   display: none !important;
 }
 
-/* ── Sidebar collapse / expand button ───────────────────────────
-   Position it just inside the top-left so it sits neatly above
-   the sidebar content, always visible and clickable.           */
+/* ── Sidebar toggle button — both states ────────────────────────
+   State 1: sidebar OPEN   — button lives inside [stSidebar]
+   State 2: sidebar CLOSED — button lives in [stSidebarCollapsedControl]
+   Both need identical styling so it's always findable.         */
+
+/* State 2: collapsed — the wrapper that holds the reopen button */
 [data-testid="stSidebarCollapsedControl"] {
   visibility: visible !important;
+  display: flex !important;
   opacity: 1 !important;
   pointer-events: auto !important;
   position: fixed !important;
-  top: 0.5rem !important;
-  left: 0.6rem !important;
-  z-index: 999999 !important;
+  top: 0.6rem !important;
+  left: 0.75rem !important;
+  z-index: 9999999 !important;
+  background: transparent !important;
 }
 
+/* Style both the open-state and closed-state buttons identically */
 [data-testid="stSidebarCollapsedControl"] button,
-button[data-testid="collapsedControl"] {
-  background: rgba(23,195,178,0.12) !important;
-  border: 1px solid rgba(23,195,178,0.30) !important;
+[data-testid="stSidebar"] [data-testid="stSidebarCollapsedControl"] button,
+[data-testid="stBaseButton-headerNoPadding"],
+button[kind="headerNoPadding"] {
+  visibility: visible !important;
+  display: flex !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  background: rgba(23,195,178,0.15) !important;
+  border: 1px solid rgba(23,195,178,0.40) !important;
   border-radius: 6px !important;
   width: 2rem !important;
   height: 2rem !important;
-  display: flex !important;
+  min-width: 2rem !important;
+  min-height: 2rem !important;
   align-items: center !important;
   justify-content: center !important;
   cursor: pointer !important;
   transition: background 0.2s ease, box-shadow 0.2s ease !important;
+  position: relative !important;
+  z-index: 9999999 !important;
 }
 
 [data-testid="stSidebarCollapsedControl"] button:hover,
-button[data-testid="collapsedControl"]:hover {
-  background: rgba(23,195,178,0.28) !important;
-  box-shadow: 0 0 10px rgba(23,195,178,0.25) !important;
+[data-testid="stBaseButton-headerNoPadding"]:hover,
+button[kind="headerNoPadding"]:hover {
+  background: rgba(23,195,178,0.30) !important;
+  box-shadow: 0 0 12px rgba(23,195,178,0.30) !important;
 }
 
 [data-testid="stSidebarCollapsedControl"] button svg,
-button[data-testid="collapsedControl"] svg {
+[data-testid="stBaseButton-headerNoPadding"] svg,
+button[kind="headerNoPadding"] svg {
   fill: #17C3B2 !important;
   color: #17C3B2 !important;
   stroke: #17C3B2 !important;
+  width: 1.1rem !important;
+  height: 1.1rem !important;
 }
 
-/* ── Hide "Made with Streamlit" footer ──────────────────────── */
-footer {
-  visibility: hidden !important;
-}
+/* ── Footer ─────────────────────────────────────────────────── */
+footer { visibility: hidden !important; }
 
-/* ── Hide "Manage app" bottom-right widget ──────────────────── */
+/* ── Manage app (bottom-right) ──────────────────────────────── */
 [data-testid="stStatusWidget"],
 [class*="StatusWidget"] {
   display: none !important;
