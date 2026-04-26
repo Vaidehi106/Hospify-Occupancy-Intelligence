@@ -537,3 +537,33 @@ section[data-testid="stSidebar"] .stButton > button[kind="secondary"]:hover {
   border: 1px solid rgba(23,195,178,0.2) !important;
   border-radius: var(--radius-sm) !important;
 }
+
+
+/* 1. Hide the top colored decoration line */
+[data-testid="stDecoration"] {
+    display: none;
+}
+
+/* 2. Completely remove the right-side toolbar (Share, Star, Edit, GitHub) */
+[data-testid="stToolbar"] {
+    display: none !important;
+}
+
+/* 3. Crush the header so it takes up absolutely zero vertical space */
+[data-testid="stHeader"] {
+    background-color: transparent;
+    height: 0px !important;
+}
+
+/* 4. Pull the arrow button out of the header and float it freely */
+[data-testid="collapsedControl"] {
+    position: absolute;
+    top: 15px;   /* Change this number to move the arrow further down */
+    left: 15px;  /* Change this number to move it further right */
+    z-index: 999999; /* Forces the arrow to sit on top of all your charts */
+}
+
+/* 5. Hide the 'Made with Streamlit' footer */
+footer {
+    display: none;
+}
