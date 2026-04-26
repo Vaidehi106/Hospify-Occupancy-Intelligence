@@ -537,29 +537,3 @@ section[data-testid="stSidebar"] .stButton > button[kind="secondary"]:hover {
   border: 1px solid rgba(23,195,178,0.2) !important;
   border-radius: var(--radius-sm) !important;
 }
-
-
-/* 1. Make the header completely transparent (keeps the arrow visible!) */
-[data-testid="stHeader"] {
-    background-color: transparent !important;
-}
-
-/* 2. Hide the top colored decoration line */
-[data-testid="stDecoration"] {
-    display: none !important;
-}
-
-/* 3. Hide the right-side menu and deploy buttons */
-[data-testid="stToolbar"] {
-    display: none !important;
-}
-
-/* 4. Push your main dashboard up so there is no empty blank space at the top */
-.block-container {
-    padding-top: 1rem !important;
-}
-
-/* 5. Hide the 'Made with Streamlit' footer */
-footer {
-    display: none !important;
-}
