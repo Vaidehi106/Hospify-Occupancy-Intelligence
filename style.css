@@ -1,0 +1,539 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,800;1,9..40,400&family=Space+Grotesk:wght@400;500;700&display=swap');
+
+/* ── Root design tokens ──────────────────────────────────────── */
+:root {
+  --navy:          #0A192F;
+  --navy-mid:      #112240;
+  --teal:          #17C3B2;
+  --teal-dim:      rgba(23,195,178,0.12);
+  --blue:          #60A5FA;
+  --coral:         #E63946;
+  --amber:         #F4A261;
+  --green:         #2A9D8F;
+  --text-main:     #E2E8F0;
+  --text-muted:    #8892B0;
+  --text-dim:      #475569;
+  --radius-sm:     8px;
+  --radius:        14px;
+  --radius-lg:     20px;
+  --glass-bg:      rgba(13, 28, 54, 0.55);
+  --glass-border:  rgba(255,255,255,0.08);
+  --glow-teal:     0 0 20px rgba(23,195,178,0.25);
+  --glow-blue:     0 0 20px rgba(96,165,250,0.2);
+}
+
+/* ── Base font ───────────────────────────────────────────────── */
+html, body, [class*="css"] {
+  font-family: 'DM Sans', sans-serif !important;
+}
+
+/* ── ANIMATED BACKGROUND GRADIENT OVERLAY ───────────────────── */
+.stApp::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 20% 30%, rgba(23,195,178,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 60% at 80% 70%, rgba(96,165,250,0.05) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  animation: meshPulse 12s ease-in-out infinite alternate;
+}
+
+@keyframes meshPulse {
+  0%   { opacity: 0.6; }
+  100% { opacity: 1.0; }
+}
+
+/* ── SIDEBAR ─────────────────────────────────────────────────── */
+section[data-testid="stSidebar"] {
+  background: linear-gradient(
+    180deg,
+    rgba(10,25,47,0.92) 0%,
+    rgba(13,34,64,0.88) 100%
+  ) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border-right: 1px solid rgba(23,195,178,0.12) !important;
+}
+
+section[data-testid="stSidebar"] > div:first-child {
+  background-color: transparent !important;
+}
+
+section[data-testid="stSidebar"] * {
+  color: #E2E8F0 !important;
+}
+
+section[data-testid="stSidebar"] .stSelectbox label,
+section[data-testid="stSidebar"] .stRadio   label,
+section[data-testid="stSidebar"] .stSlider  label {
+  color: var(--text-muted) !important;
+  font-size: 0.76rem !important;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-weight: 600 !important;
+}
+
+section[data-testid="stSidebar"] .stSelectbox > div > div,
+section[data-testid="stSidebar"] .stRadio > div {
+  background: rgba(10,25,47,0.6) !important;
+  border: 1px solid rgba(23,195,178,0.15) !important;
+  border-radius: var(--radius-sm) !important;
+}
+
+section[data-testid="stSidebar"] hr {
+  border-color: rgba(255,255,255,0.06) !important;
+}
+
+/* Sidebar button */
+section[data-testid="stSidebar"] .stButton > button {
+  background: linear-gradient(135deg, #17C3B2, #0EA5A0) !important;
+  color: #0A192F !important;
+  border: none !important;
+  border-radius: var(--radius-sm) !important;
+  font-weight: 800 !important;
+  font-size: 0.88rem !important;
+  padding: 0.7rem 1.2rem !important;
+  width: 100% !important;
+  letter-spacing: 0.04em;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px rgba(23,195,178,0.3) !important;
+}
+
+section[data-testid="stSidebar"] .stButton > button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(23,195,178,0.5) !important;
+}
+
+/* Sidebar expander */
+section[data-testid="stSidebar"] .streamlit-expanderHeader {
+  background: rgba(255,255,255,0.04) !important;
+  border-radius: var(--radius-sm) !important;
+  border: 1px solid var(--glass-border) !important;
+  color: var(--text-muted) !important;
+  font-size: 0.78rem !important;
+}
+
+/* ── PAGE TITLE ──────────────────────────────────────────────── */
+.page-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.85rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #CCD6F6 0%, #17C3B2 50%, #60A5FA 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.2rem;
+  letter-spacing: -0.02em;
+}
+
+.page-sub {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.03em;
+}
+
+/* ── KPI CARDS — CSS Grid (scrollbar-proof) ──────────────────── */
+/*
+  FIX: Switched from flex to CSS Grid auto-fit.
+  Cards shrink proportionally when sidebar scrollbar appears (~15px),
+  so they never overflow or wrap onto a second row unexpectedly.
+*/
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.85rem;
+  margin-bottom: 1.25rem;
+  width: 100%;
+}
+
+.kpi-card {
+  /* Remove fixed min-width — grid handles sizing now */
+  min-width: 0;
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-top: 3px solid transparent;
+  border-radius: var(--radius);
+  padding: 1.1rem 1.25rem;
+  position: relative;
+  color: var(--text-main);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* subtle inner glow on hover */
+.kpi-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  background: radial-gradient(circle at top left, rgba(255,255,255,0.04), transparent 60%);
+}
+
+.kpi-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 40px rgba(0,0,0,0.45), var(--glow-teal);
+}
+
+.kpi-card:hover::after { opacity: 1; }
+
+.kpi-teal  { border-top-color: var(--teal);  }
+.kpi-coral { border-top-color: var(--coral); }
+.kpi-amber { border-top-color: var(--amber); }
+.kpi-green { border-top-color: var(--green); }
+
+.kpi-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-muted);
+  margin-bottom: 0.4rem;
+  /* Prevent label overflow on narrow cards */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.kpi-value {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: #F1F5F9;
+  line-height: 1.15;
+  /* Prevent value overflow */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.kpi-sub {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: 0.35rem;
+  /* Allow sub to wrap — it's descriptive text */
+  line-height: 1.4;
+}
+
+.kpi-icon {
+  font-size: 1.6rem;
+  position: absolute;
+  top: 1rem;
+  right: 1.1rem;
+  opacity: 0.7;
+}
+
+/* ── INSIGHT CARD ────────────────────────────────────────────── */
+.insight-card {
+  background: linear-gradient(
+    135deg,
+    rgba(23,195,178,0.08) 0%,
+    rgba(13,28,54,0.6) 60%
+  );
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(23,195,178,0.18);
+  border-left: 3px solid var(--teal);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3), var(--glow-teal);
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.insight-icon { font-size: 1.8rem; flex-shrink: 0; margin-top: 0.1rem; }
+
+.insight-title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--teal);
+  margin-bottom: 0.4rem;
+}
+
+.insight-text {
+  font-size: 0.92rem;
+  color: #CBD5E1;
+  line-height: 1.65;
+}
+
+/* ── SECTION HEADER ──────────────────────────────────────────── */
+.section-header {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  margin: 1.75rem 0 1rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.section-header::before {
+  content: "";
+  display: inline-block;
+  width: 3px;
+  height: 14px;
+  background: linear-gradient(to bottom, var(--teal), var(--blue));
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+/* ── TABS ────────────────────────────────────────────────────── */
+.stTabs [data-baseweb="tab-list"] {
+  display: flex !important;
+  width: 100% !important;
+  background: rgba(10,25,47,0.6) !important;
+  backdrop-filter: blur(12px) !important;
+  border-radius: var(--radius) var(--radius) 0 0 !important;
+  border-bottom: 1px solid rgba(23,195,178,0.1) !important;
+  gap: 0 !important;
+  overflow-x: auto;
+}
+
+.stTabs [data-baseweb="tab"] {
+  flex: 1 !important;
+  justify-content: center !important;
+  color: #64748B !important;
+  font-size: 0.8rem !important;
+  font-weight: 500 !important;
+  padding: 0.75rem 0.5rem !important;
+  white-space: nowrap;
+  transition: color 0.2s ease;
+}
+
+.stTabs [aria-selected="true"] {
+  color: var(--teal) !important;
+  border-bottom: 2px solid var(--teal) !important;
+  background: rgba(23,195,178,0.08) !important;
+  font-weight: 700 !important;
+}
+
+.stTabs [data-baseweb="tab"]:hover {
+  color: #94A3B8 !important;
+  background: rgba(255,255,255,0.03) !important;
+}
+
+.stTabs [data-baseweb="tab-panel"] {
+  background: transparent !important;
+  padding: 1.25rem 0 !important;
+}
+
+/* ── METRIC CARDS ────────────────────────────────────────────── */
+div[data-testid="metric-container"] {
+  background: rgba(13, 28, 54, 0.22) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: var(--radius-sm) !important;
+  padding: 0.85rem 1rem !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+}
+
+div[data-testid="metric-container"] label,
+[data-testid="stMetricLabel"] {
+  color: var(--text-muted) !important;
+  font-size: 0.75rem !important;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+div[data-testid="metric-container"] [data-testid="stMetricValue"],
+[data-testid="stMetricValue"] {
+  font-family: 'Space Grotesk', sans-serif !important;
+  color: #F1F5F9 !important;
+  font-weight: 700 !important;
+  font-size: 1.6rem !important;
+}
+
+[data-testid="stMetricDelta"] svg {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+/* ── DATAFRAME ───────────────────────────────────────────────── */
+.stDataFrame {
+  border-radius: var(--radius-sm) !important;
+  overflow: hidden;
+  border: 1px solid var(--glass-border) !important;
+}
+
+/* ── st.dataframe — glass transparency ─────────────────────── */
+div[data-testid="stDataFrame"] {
+  background: rgba(13, 28, 54, 0.18) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.07) !important;
+  border-radius: 14px !important;
+  overflow: hidden;
+}
+
+div[data-testid="stDataFrame"] > div {
+  background: transparent !important;
+}
+
+div[data-testid="stDataFrame"] .stDataFrameGlideDataEditor,
+div[data-testid="stDataFrame"] [data-testid="glideDataEditorContainer"] {
+  background: transparent !important;
+}
+
+/* ── ALERTS / INFO BOXES ─────────────────────────────────────── */
+div[data-testid="stAlert"] {
+  border-radius: var(--radius-sm) !important;
+  backdrop-filter: blur(8px) !important;
+  font-size: 0.88rem !important;
+}
+
+/* ── EMPTY STATE ─────────────────────────────────────────────── */
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  color: var(--text-main);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+}
+
+.empty-state .emoji { font-size: 4rem; margin-bottom: 1rem; }
+
+/* ── SCROLLBAR — More transparent / ghost-like ───────────────── */
+/*
+  FIX: Reduced opacity from 0.25/0.45 to 0.10/0.22 for a
+  near-invisible scrollbar that doesn't distract from the UI.
+*/
+::-webkit-scrollbar       { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(23,195,178,0.10);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(23,195,178,0.22);
+}
+
+/* ── CAPTION / SMALL TEXT ────────────────────────────────────── */
+.stCaption, .stCaption p {
+  color: var(--text-dim) !important;
+  font-size: 0.78rem !important;
+}
+
+/* ── SPINNER ─────────────────────────────────────────────────── */
+.stSpinner > div { border-top-color: var(--teal) !important; }
+
+/* ── SIDEBAR SUB-NAV WIDGET BUTTONS ─────────────────────────── */
+section[data-testid="stSidebar"] .stButton > button[kind="secondary"] {
+  background: transparent !important;
+  color: #94A3B8 !important;
+  border: 1px solid rgba(255,255,255,0.07) !important;
+  border-radius: 8px !important;
+  font-size: 0.8rem !important;
+  font-weight: 500 !important;
+  padding: 0.45rem 0.8rem !important;
+  text-align: left !important;
+  justify-content: flex-start !important;
+  transition: all 0.2s ease;
+  margin-bottom: 0.2rem;
+}
+
+section[data-testid="stSidebar"] .stButton > button[kind="secondary"]:hover {
+  background: rgba(255,255,255,0.05) !important;
+  color: #E2E8F0 !important;
+  border-color: rgba(255,255,255,0.15) !important;
+  transform: translateX(3px);
+}
+
+/* ── Glass Table ──────────────────────────────────────────────── */
+.glass-table-container {
+  background: rgba(13, 28, 54, 0.18);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 14px;
+  max-height: 460px;
+  overflow-y: auto;
+  margin-bottom: 1rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255,255,255,0.05);
+}
+
+.glass-table {
+  width: 100%;
+  border-collapse: collapse;
+  color: #CBD5E1;
+  font-size: 13.5px;
+}
+
+.glass-table th {
+  position: sticky;
+  top: 0;
+  background: rgba(10, 25, 47, 0.50);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  padding: 12px 14px;
+  text-align: left;
+  border-bottom: 1px solid rgba(23, 195, 178, 0.15);
+  font-weight: 700;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #8892B0;
+  z-index: 2;
+}
+
+.glass-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  color: #CBD5E1;
+}
+
+.glass-table tr:hover td {
+  background-color: rgba(23, 195, 178, 0.05);
+  color: #E2E8F0;
+}
+
+.weekend-row td {
+  background-color: rgba(23, 195, 178, 0.04);
+}
+
+.weekend-row:hover td {
+  background-color: rgba(23, 195, 178, 0.09) !important;
+}
+
+/* ── Chatbot panel ───────────────────────────────────────────── */
+.chat-panel {
+  background: rgba(13, 28, 54, 0.55);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.25rem 0.75rem 1.25rem;
+  margin-top: 0.5rem;
+}
+
+/* Streamlit chat message bubbles */
+[data-testid="stChatMessage"] {
+  background: rgba(13, 28, 54, 0.35) !important;
+  border: 1px solid rgba(255,255,255,0.05) !important;
+  border-radius: var(--radius) !important;
+  margin-bottom: 0.5rem;
+}
+
+[data-testid="stChatInputContainer"] {
+  background: rgba(10, 25, 47, 0.7) !important;
+  border: 1px solid rgba(23,195,178,0.2) !important;
+  border-radius: var(--radius-sm) !important;
+}
