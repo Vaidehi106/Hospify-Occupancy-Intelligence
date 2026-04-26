@@ -539,15 +539,22 @@ section[data-testid="stSidebar"] .stButton > button[kind="secondary"]:hover {
 }
 
 
-/* Hide Streamlit default header, menu, and footer */
-[data-testid="stHeader"] {
-    visibility: hidden;
+/* Hide the top colored decoration line */
+[data-testid="stDecoration"] {
+    display: none;
 }
 
+/* Hide the top right menu and deploy buttons */
 [data-testid="stToolbar"] {
     visibility: hidden;
 }
 
+/* Make the top banner completely transparent so the sidebar button remains visible! */
+[data-testid="stHeader"] {
+    background-color: transparent;
+}
+
+/* Hide the "Made with Streamlit" footer */
 footer {
     visibility: hidden;
 }
