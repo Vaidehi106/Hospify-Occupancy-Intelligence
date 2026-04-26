@@ -513,12 +513,50 @@ section[data-testid="stSidebar"] .stButton > button[kind="secondary"]:hover {
   background-color: rgba(23, 195, 178, 0.09) !important;
 }
 
-/* ── CHROME CLEANUP (handled in app.py st.markdown injection) ── */
-/* These are fallback rules only — primary logic is in app.py     */
+/* ── Chatbot panel ───────────────────────────────────────────── */
+.chat-panel {
+  background: rgba(13, 28, 54, 0.55);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.25rem 0.75rem 1.25rem;
+  margin-top: 0.5rem;
+}
 
-[data-testid="stDecoration"]   { display: none !important; }
-[data-testid="stHeader"]       { display: none !important; }
-[data-testid="stToolbar"]      { display: none !important; }
-[data-testid="stStatusWidget"] { display: none !important; }
-[class*="StatusWidget"]        { display: none !important; }
-footer                         { display: none !important; }
+/* Streamlit chat message bubbles */
+[data-testid="stChatMessage"] {
+  background: rgba(13, 28, 54, 0.35) !important;
+  border: 1px solid rgba(255,255,255,0.05) !important;
+  border-radius: var(--radius) !important;
+  margin-bottom: 0.5rem;
+}
+
+[data-testid="stChatInputContainer"] {
+  background: rgba(10, 25, 47, 0.7) !important;
+  border: 1px solid rgba(23,195,178,0.2) !important;
+  border-radius: var(--radius-sm) !important;
+}
+
+
+/* ── CHROME CLEANUP ─────────────────────────────── */
+
+/* Hide top colour decoration bar — safe, no impact on sidebar */
+[data-testid="stDecoration"] {
+  display: none !important;
+}
+
+/* Hide "Made with Streamlit" footer */
+footer {
+  visibility: hidden !important;
+}
+
+/* Hide "Manage app" bottom-right button */
+[data-testid="stStatusWidget"],
+[class*="StatusWidget"] {
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* DO NOT touch stHeader, stToolbar, or stSidebarCollapsedControl
+   — they control the sidebar toggle and must remain untouched   */
