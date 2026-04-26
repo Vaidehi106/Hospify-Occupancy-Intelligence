@@ -513,99 +513,12 @@ section[data-testid="stSidebar"] .stButton > button[kind="secondary"]:hover {
   background-color: rgba(23, 195, 178, 0.09) !important;
 }
 
-/* ── CHROME CLEANUP ──────────────────────────────────────────── */
+/* ── CHROME CLEANUP (handled in app.py st.markdown injection) ── */
+/* These are fallback rules only — primary logic is in app.py     */
 
-/* Hide decoration bar */
-[data-testid="stDecoration"] {
-  display: none !important;
-}
-
-/* ── Header: keep natural height, make fully invisible ──────────
-   NEVER set height:0 or display:none — Streamlit uses the header
-   as the anchor for the sidebar toggle button. Making it
-   invisible but present means the button stays in its correct
-   position in both sidebar-open and sidebar-collapsed states.  */
-[data-testid="stHeader"] {
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  padding: 0 !important;
-}
-
-/* Hide everything INSIDE the header except the sidebar button */
-[data-testid="stHeader"] > *:not([data-testid="stSidebarCollapsedControl"]) {
-  display: none !important;
-}
-
-/* Hide the right-side toolbar */
-[data-testid="stToolbar"] {
-  display: none !important;
-}
-
-/* ── Sidebar toggle button — both states ────────────────────────
-   State 1: sidebar OPEN   — button lives inside [stSidebar]
-   State 2: sidebar CLOSED — button lives in [stSidebarCollapsedControl]
-   Both need identical styling so it's always findable.         */
-
-/* State 2: collapsed — the wrapper that holds the reopen button */
-[data-testid="stSidebarCollapsedControl"] {
-  visibility: visible !important;
-  display: flex !important;
-  opacity: 1 !important;
-  pointer-events: auto !important;
-  position: fixed !important;
-  top: 0.6rem !important;
-  left: 0.75rem !important;
-  z-index: 9999999 !important;
-  background: transparent !important;
-}
-
-/* Style both the open-state and closed-state buttons identically */
-[data-testid="stSidebarCollapsedControl"] button,
-[data-testid="stSidebar"] [data-testid="stSidebarCollapsedControl"] button,
-[data-testid="stBaseButton-headerNoPadding"],
-button[kind="headerNoPadding"] {
-  visibility: visible !important;
-  display: flex !important;
-  opacity: 1 !important;
-  pointer-events: auto !important;
-  background: rgba(23,195,178,0.15) !important;
-  border: 1px solid rgba(23,195,178,0.40) !important;
-  border-radius: 6px !important;
-  width: 2rem !important;
-  height: 2rem !important;
-  min-width: 2rem !important;
-  min-height: 2rem !important;
-  align-items: center !important;
-  justify-content: center !important;
-  cursor: pointer !important;
-  transition: background 0.2s ease, box-shadow 0.2s ease !important;
-  position: relative !important;
-  z-index: 9999999 !important;
-}
-
-[data-testid="stSidebarCollapsedControl"] button:hover,
-[data-testid="stBaseButton-headerNoPadding"]:hover,
-button[kind="headerNoPadding"]:hover {
-  background: rgba(23,195,178,0.30) !important;
-  box-shadow: 0 0 12px rgba(23,195,178,0.30) !important;
-}
-
-[data-testid="stSidebarCollapsedControl"] button svg,
-[data-testid="stBaseButton-headerNoPadding"] svg,
-button[kind="headerNoPadding"] svg {
-  fill: #17C3B2 !important;
-  color: #17C3B2 !important;
-  stroke: #17C3B2 !important;
-  width: 1.1rem !important;
-  height: 1.1rem !important;
-}
-
-/* ── Footer ─────────────────────────────────────────────────── */
-footer { visibility: hidden !important; }
-
-/* ── Manage app (bottom-right) ──────────────────────────────── */
-[data-testid="stStatusWidget"],
-[class*="StatusWidget"] {
-  display: none !important;
-}
+[data-testid="stDecoration"]   { display: none !important; }
+[data-testid="stHeader"]       { display: none !important; }
+[data-testid="stToolbar"]      { display: none !important; }
+[data-testid="stStatusWidget"] { display: none !important; }
+[class*="StatusWidget"]        { display: none !important; }
+footer                         { display: none !important; }
