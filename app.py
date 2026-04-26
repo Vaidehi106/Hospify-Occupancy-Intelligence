@@ -161,7 +161,7 @@ with st.sidebar:
     """, unsafe_allow_html=True)
 
     property_choice = st.selectbox(
-        "🏨 Property",
+        "Property",
         options=["Aureon", "Velaris", "Zenvyra"],
     )
 
@@ -172,7 +172,7 @@ with st.sidebar:
 
     ms_csv_path   = cfg.get("ms_forecast_csv", "")
     ms_available  = os.path.exists(ms_csv_path) if ms_csv_path else False
-    ms_badge       = "✅ MS Model Ready" if ms_available else "⚠️ MS CSV not found"
+    ms_badge       = "MS Model Ready" if ms_available else "⚠️ MS CSV not found"
     ms_badge_color = "#17C3B2" if ms_available else "#F4A261"
 
     st.markdown(f"""
@@ -180,14 +180,14 @@ with st.sidebar:
                 border-radius:10px;padding:0.75rem 1rem;margin:0.5rem 0 1rem 0;font-size:0.8rem;">
       <div style="color:#8892B0;text-transform:uppercase;letter-spacing:0.07em;
                   font-size:0.68rem;margin-bottom:0.5rem;">Property Details</div>
-      <div style="color:#CCD6F6;margin-bottom:0.25rem;">🔑 <b>{inv}</b> rooms total</div>
-      <div style="color:#CCD6F6;margin-bottom:0.25rem;">⚙️  {badge}</div>
-      <div style="color:{ms_badge_color};margin-bottom:0.25rem;">📊 {ms_badge}</div>
+      <div style="color:#CCD6F6;margin-bottom:0.25rem;"><b>{inv}</b> rooms total</div>
+      <div style="color:#CCD6F6;margin-bottom:0.25rem;">{badge}</div>
+      <div style="color:{ms_badge_color};margin-bottom:0.25rem;">{ms_badge}</div>
     </div>
     """, unsafe_allow_html=True)
 
     horizon = st.radio(
-        "📅 Forecast Horizon (days)",
+        "Forecast Horizon (days)",
         options=["7", "14", "30", "90"],
         index=2,
         horizontal=True,
